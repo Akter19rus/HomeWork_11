@@ -26,7 +26,7 @@ public class Main {
     public static void installingASupportedVersion(int userOS, int yearIssuePhone) {
         if (userOS == 1 && yearIssuePhone >= 2015) {
             System.out.println("Установите версию приложения для IOS по ссылке");
-        } else if (userOS == 1 && yearIssuePhone < 2015) {
+        } else if (userOS == 1) {
             System.out.println("Установите облегченную версию приложения для IOS по ссылке");
 
         } else if (userOS == 0 && yearIssuePhone >= 2015) {
@@ -41,7 +41,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Какая у вас операционная система, введите '0' если Android - '1' если IOS : ");
         int clientOS = Integer.parseInt(scanner.next());
-        if (clientOS < 0 && clientOS > 1) {
+        if (clientOS < 0 || clientOS > 1) {
             throw new RuntimeException("Недопустимое значение !");
         }
         System.out.println("Год выпуска вашего мобильного телефона: ");
@@ -52,28 +52,33 @@ public class Main {
     }
 
 
-    public static void needDaysForDelivery(int dayForDelivery) {
-        boolean oneDayDistance = (dayForDelivery <= 20 && dayForDelivery > 0);
-        boolean twoDayDistance = (dayForDelivery > 20 && dayForDelivery <= 60);
-        boolean threeDayDistance = (dayForDelivery > 60 && dayForDelivery < 100);
-        if (oneDayDistance) {
-            System.out.println("Для расстояния " + dayForDelivery + "км потребуются сутки на доставку карты");
-        } else if (twoDayDistance) {
-            System.out.println("Для расстояния " + dayForDelivery + "км потребуется два дня на доставку карты");
-        } else if (threeDayDistance) {
-            System.out.println("Для расстояния " + dayForDelivery + "км потребуется 3 дня на доставку карты");
+    public static int needDaysForDelivery(int distanceForDelivery) {
+        if (distanceForDelivery <= 20) {
+            return 1;
+        } else if (distanceForDelivery <= 60) {
+            return 2;
+        } else if (distanceForDelivery <= 100) {
+            return 3;
         } else {
-            System.out.println("Свыше 100 км доставки нет!");
+            return 4;
         }
-        return;
     }
 
     public static void task3() {
         System.out.println("Задача 3");
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите расстояние: ");
-        String deliveryDistance = scanner.next();
-        needDaysForDelivery(Integer.parseInt(deliveryDistance));
+        int deliveryDistance = Integer.parseInt(scanner.next());
+        int days = needDaysForDelivery(deliveryDistance);
+        if (deliveryDistance > 100) {
+            System.out.println("Вы находитесь в не зоны доставки! ");
+        } else if (days < 1) {
+            System.out.println("Некорректное значение!");
+        } else {
+            System.out.println("Ожидайте доставки карты на " + days + " сутки!");
+        }
+
+
 
     }
 }
